@@ -9,93 +9,81 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateUser(db *gorm.DB) fiber.Handler {
+func CreateTask(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var input model.UserCreate
+		var input model.TaskCreate
 		err := c.BodyParser(&input)
 		if err != nil {
 			return handleErrors(c, err)
 		}
 
-		user := model.User{
-			Name:       input.Name,
-			Surname:    input.Surname,
-			Patronymic: input.Patronymic,
-			Address:    input.Address,
-			Passport:   input.Passport,
+		task := model.Task{
+			Name:        input.Name,
+			Description: input.Description,
 		}
 
-		res := db.Create(&user)
+		res := db.Create(&task)
 		if res.Error != nil {
 			return handleErrors(c, err)
 		}
 
 		c.Status(http.StatusOK)
 		return c.JSON(Output{
-			Data:  user,
+			Data:  task,
 			Error: "",
 		})
 	}
 }
 
-func UpdateUser(db *gorm.DB) fiber.Handler {
+func UpdateTask(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var input model.UserUpdate
+		var input model.TaskUpdate
 		err := c.BodyParser(&input)
 		if err != nil {
 			return handleErrors(c, err)
 		}
 
-		user := model.User{
+		task := model.Task{
 			ID: input.ID,
 		}
-		res := db.First(&user)
+		res := db.First(&task)
 		if res.Error != nil {
 			return handleErrors(c, err)
 		}
 
 		if input.Name != nil && *input.Name != "" {
-			user.Name = *input.Name
+			task.Name = *input.Name
 		}
-		if input.Surname != nil && *input.Surname != "" {
-			user.Surname = *input.Surname
-		}
-		if input.Patronymic != nil && *input.Patronymic != "" {
-			user.Patronymic = input.Patronymic
-		}
-		if input.Address != nil && *input.Address != "" {
-			user.Address = *input.Address
-		}
-		if input.Passport != nil && *input.Passport != 0 {
-			user.Passport = *input.Passport
+		if input.Description != nil && *input.Description != "" {
+			task.Description = *input.Description
 		}
 
-		res = db.Save(&user)
+		res = db.Save(&task)
 		if res.Error != nil {
 			return handleErrors(c, err)
 		}
 
 		c.Status(http.StatusOK)
 		return c.JSON(Output{
-			Data:  user,
+			Data:  task,
 			Error: "",
 		})
 	}
 }
 
-func DeliteUser(db *gorm.DB) fiber.Handler {
+func DeliteTask(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var input model.UserDelete
+		var input model.TaskDelete
 		err := c.BodyParser(&input)
 		if err != nil {
 			return handleErrors(c, err)
 		}
 
-		user := model.User{
+		task := model.Task{
 			ID: input.ID,
 		}
 
-		res := db.Delete(&user)
+		res := db.Delete(&task)
 		if res.Error != nil {
 			return handleErrors(c, err)
 		}

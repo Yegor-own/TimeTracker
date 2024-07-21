@@ -19,5 +19,18 @@ func NewRouter() *fiber.App {
 func UserRouter(app fiber.Router, db *gorm.DB) {
 	app.Post("/createUser", handler.CreateUser(db))
 	// app.Get("/getUser")
-	// app.Patch("/updateUser")
+	app.Patch("/updateUser", handler.UpdateUser(db))
+	app.Delete("/deleteUser", handler.DeliteUser(db))
+}
+
+func TaskRouter(app fiber.Router, db *gorm.DB) {
+	app.Post("/createTask", handler.CreateTask(db))
+	app.Patch("/updateTask", handler.UpdateTask(db))
+	app.Delete("/deleteTask", handler.DeliteTask(db))
+}
+
+func TrackRouter(app fiber.Router, db *gorm.DB) {
+	app.Post("/createTrack", handler.CreateTrack(db))
+	app.Patch("/updateTrack", handler.UpdateTrack(db))
+	app.Delete("/deleteTrack", handler.DeliteTrack(db))
 }

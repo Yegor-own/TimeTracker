@@ -19,8 +19,15 @@ func main() {
 
 	app := NewRouter()
 	api := app.Group("/api")
+
 	user := api.Group("/user")
 	UserRouter(user, db)
+
+	task := api.Group("/task")
+	TaskRouter(task, db)
+
+	track := api.Group("/track")
+	TrackRouter(track, db)
 
 	err := app.Listen(":3000")
 	if err != nil {

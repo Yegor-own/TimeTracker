@@ -6,6 +6,7 @@ type User struct {
 	Surname    string
 	Patronymic *string
 	Address    string
+	Passport   int
 }
 
 type UserCreate struct {
@@ -13,16 +14,18 @@ type UserCreate struct {
 	Surname    string
 	Patronymic *string
 	Address    string
+	Passport   int
 }
 
 type UserUpdate struct {
-	UserID     uint
+	ID         uint
 	Name       *string
 	Surname    *string
 	Patronymic *string
 	Address    *string
+	Passport   *int
 }
 
 type UserDelete struct {
-	UserID uint
+	ID uint
 }
