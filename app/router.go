@@ -18,6 +18,6 @@ func NewRouter() *fiber.App {
 
 func UserRouter(app fiber.Router, db *gorm.DB) {
 	app.Post("/createUser", handler.CreateUser(db))
-	app.Get("/getUser")
-	app.Patch("/updateUser")
+	// app.Get("/getUser")
+	// app.Patch("/updateUser")
 }

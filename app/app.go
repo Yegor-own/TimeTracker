@@ -2,23 +2,45 @@ package main
 
 import (
 	"log"
+	"os"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 
-	dsn := "host=localhost user=admin password=root dbname=time-tracker port=5432"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	logToFile("logs")
+
+	loadEnv()
+
+	db := connectDB()
+
+	migrateModels(db)
 
 	app := NewRouter()
 	api := app.Group("/api")
 	user := api.Group("/user")
 	UserRouter(user, db)
 
-	err = app.Listen(":3000")
+	err := app.Listen(":3000")
 	if err != nil {
 		log.Fatalln(err.Error())
+	}
+}
+
+func logToFile(filename string) {
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("Error opening file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+}
+
+func loadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
 	}
 }
