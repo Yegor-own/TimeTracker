@@ -3,11 +3,55 @@ package handler
 import (
 	"fmt"
 	"net/http"
-	"time-tracker/app/model"
+	"strconv"
+	"time"
+	"time-tracker/model"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
+
+// LabourCosts godoc
+//
+//	@Summary		labour costs
+//	@Description	gives tracks
+//	@Tags			example
+//	@Accept			json
+//	@Produce		plain
+//	@Success		200	{string}	string	"pong"
+//	@Failure		400	{string}	string	"ok"
+//	@Failure		404	{string}	string	"ok"
+//	@Failure		500	{string}	string	"ok"
+//	@Router			/examples/ping [get]
+func LabourCosts(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+
+		userId, err := strconv.Atoi(c.Query("user_id"))
+		if err != nil {
+			return handleErrors(c, err)
+		}
+
+		from, err := time.Parse("2006-01-02 15:04:05", c.Query("from"))
+		if err != nil {
+			return handleErrors(c, err)
+		}
+
+		to, err := time.Parse("2006-01-02 15:04:05", c.Query("to"))
+		if err != nil {
+			to = time.Now()
+		}
+
+		var tracks []model.Track
+
+		db.Find(&tracks, "stop > ? and start < ? and user_id = ?", from, to, userId)
+
+		c.Status(http.StatusOK)
+		return c.JSON(Output{
+			Data:  tracks,
+			Error: "",
+		})
+	}
+}
 
 func CreateUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {

@@ -3,7 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
-	"time-tracker/app/model"
+	"time-tracker/model"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"

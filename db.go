@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time-tracker/app/model"
+	"time-tracker/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
