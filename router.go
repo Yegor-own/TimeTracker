@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"time-tracker/handler"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,10 +10,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewRouter() *fiber.App {
+func NewRouter(log io.Writer) *fiber.App {
 	app := fiber.New()
 
-	app.Use(cors.New(), logger.New())
+	app.Use(cors.New(), logger.New(logger.Config{
+		Output: log,
+	}))
 
 	return app
 }

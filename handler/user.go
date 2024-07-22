@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -82,11 +83,18 @@ func GetUsers(db *gorm.DB) fiber.Handler {
 		if err != nil {
 			return handleErrors(c, err)
 		}
-		x := (page - 1) * limit
+
+		result := map[string]interface{}{}
+		db.Model(&model.User{}).First(&result)
+		fId, ok := result["id"].(uint)
+		if !ok {
+			return handleErrors(c, errors.New("first ID inst int"))
+		}
+		x := ((page - 1) * limit) + int(fId) - 1
 
 		var users []model.User
 
-		db.Where("id > ? limit ?", x, limit).Find(&users)
+		db.Where("id > ?", x).Limit(limit).Find(&users)
 
 		c.Status(http.StatusOK)
 		return c.JSON(Output{
@@ -127,7 +135,7 @@ func LabourCosts(db *gorm.DB) fiber.Handler {
 
 		var tracks []model.Track
 
-		db.Where("stop > ? AND start < ? AND user_id = ?", from, to, userId).Find(&tracks)
+		db.Select("(stop - start) as period, tracks .*").Where("stop > ? AND start < ? AND user_id = ?", from, to, userId).Order("period DESC").Find(&tracks)
 
 		c.Status(http.StatusOK)
 		return c.JSON(Output{

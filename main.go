@@ -23,7 +23,12 @@ import (
 
 func main() {
 
-	logToFile("logs")
+	f, err := os.OpenFile("logs", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("Error opening file: %v", err)
+	}
+	defer f.Close()
+	log.SetOutput(f)
 
 	loadEnv()
 
@@ -31,7 +36,7 @@ func main() {
 
 	migrateModels(db)
 
-	app := NewRouter()
+	app := NewRouter(f)
 	app.Get("/swagger/*", swagger.HandlerDefault)
 	api := app.Group("/api")
 
@@ -44,7 +49,7 @@ func main() {
 	track := api.Group("/track")
 	TrackRouter(track, db)
 
-	err := app.Listen(":3000")
+	err = app.Listen(":3000")
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
