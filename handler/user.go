@@ -11,18 +11,105 @@ import (
 	"gorm.io/gorm"
 )
 
+// GetUser godoc
+//
+// @Summary		labour costs
+// @Description	gives track
+// @Param 		user_id 		query int 	 false 	"used for finding user by id"
+// @Param 		user_name 		query string false 	"used for finding user by name"
+// @Param 		user_surname 	query string false 	"used for finding user by surname"
+// @Param 		user_patronymic query string false 	"used for finding user by patronymic"
+// @Param 		user_address 	query string false 	"used for finding user by address"
+// @Param 		user_passport 	query int 	 false 	"used for finding user by passport"
+// @Accept		json
+// @Produce		json
+// @Success		200	{string}	json	"list of tracks"
+// @Failure		400	{string}	json	"error"
+// @Router		/api/user/getUser 	[get]
+func GetUser(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		id := 0
+		if c.Query("user_id") != "" {
+			id, _ = strconv.Atoi(c.Query("user_id"))
+		}
+
+		name := c.Query("user_name")
+		surname := c.Query("user_surname")
+		patronymic := c.Query("user_patronymic")
+		address := c.Query("user_address")
+
+		passport := 0
+		if c.Query("user_passport") != "" {
+			passport, _ = strconv.Atoi(c.Query("user_passport"))
+		}
+
+		user := model.User{
+			ID:         uint(id),
+			Name:       name,
+			Surname:    surname,
+			Patronymic: &patronymic,
+			Address:    address,
+			Passport:   passport,
+		}
+
+		db.Find(&user)
+
+		c.Status(http.StatusOK)
+		return c.JSON(Output{
+			Data:  user,
+			Error: "",
+		})
+	}
+}
+
+// GetUsers godoc
+//
+// @Summary		"labour costs"
+// @Description	"gives track"
+// @Param 		limit 	query int true 	"max items on page"
+// @Param 		page 	query int true 	"starts from 1"
+// @Accept		json
+// @Produce		json
+// @Success		200	{string}	json	"list of tracks"
+// @Failure		400	{string}	json	"error"
+// @Router		/api/user/getUsers 	[get]
+func GetUsers(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+
+		limit, err := strconv.Atoi(c.Query("limit"))
+		if err != nil {
+			return handleErrors(c, err)
+		}
+		page, err := strconv.Atoi(c.Query("page"))
+		if err != nil {
+			return handleErrors(c, err)
+		}
+		x := (page - 1) * limit
+
+		var users []model.User
+
+		db.Where("id > ? limit ?", x, limit).Find(&users)
+
+		c.Status(http.StatusOK)
+		return c.JSON(Output{
+			Data:  users,
+			Error: "",
+		})
+	}
+}
+
 // LabourCosts godoc
 //
 //	@Summary		labour costs
 //	@Description	gives tracks
-//	@Tags			example
+//	@Param user_id query int true "used for finding tracks"
+//	@Param from query string true "used for left edge of dates"
+//	@Param to query string false "used for right edge of dates"
 //	@Accept			json
-//	@Produce		plain
-//	@Success		200	{string}	string	"pong"
-//	@Failure		400	{string}	string	"ok"
-//	@Failure		404	{string}	string	"ok"
-//	@Failure		500	{string}	string	"ok"
-//	@Router			/examples/ping [get]
+//	@Produce		json
+//	@Success		200	{string}	json	"list of tracks"
+//	@Failure		400	{string}	json	"error"
+//	@Router			/api/user/labourCosts [get]
 func LabourCosts(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
@@ -43,7 +130,7 @@ func LabourCosts(db *gorm.DB) fiber.Handler {
 
 		var tracks []model.Track
 
-		db.Find(&tracks, "stop > ? and start < ? and user_id = ?", from, to, userId)
+		db.Where("stop > ? AND start < ? AND user_id = ?", from, to, userId).Find(&tracks)
 
 		c.Status(http.StatusOK)
 		return c.JSON(Output{
