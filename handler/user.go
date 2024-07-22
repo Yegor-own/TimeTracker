@@ -148,11 +148,7 @@ func LabourCosts(db *gorm.DB) fiber.Handler {
 // CreateUser godoc
 //
 // @Description	create user
-// @Param 		name 		body string true 	"used to set user's name"
-// @Param 		surname 	body string true 	"used to set user's surname"
-// @Param 		patronymic 	body string false 	"used to set user's patronymic"
-// @Param 		address 	body string true 	"used to set user's address"
-// @Param 		passport 	body int 	true 	"used to set user's passport"
+// @Param 		user body model.UserCreate true "used to set user"
 // @Accept		json
 // @Produce		json
 // @Success		200	{object} 	Output "success response"
@@ -190,16 +186,11 @@ func CreateUser(db *gorm.DB) fiber.Handler {
 // UpdateUser godoc
 //
 // @Description	update user by id
-// @Param 		id 			body uint 	true 	"used to find user by id"
-// @Param 		name 		body string false 	"used to change user's name"
-// @Param 		surname 	body string false 	"used to change user's surname"
-// @Param 		patronymic 	body string false 	"used to change user's patronymic"
-// @Param 		address 	body string false 	"used to change user's address"
-// @Param 		passport 	body int 	false 	"used to change user's passport"
+// @Param 		user body model.UserUpdate true "used to update user"
 // @Accept		json
 // @Produce		json
-// @Success		200	{object} Output "success response"
-// @Failure		400	{object}	Output	"error"
+// @Success		200	{object} 	Output "success response"
+// @Failure		400	{object}	Output "error"
 // @Router		/api/user/updateUser 	[patch]
 func UpdateUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -249,7 +240,7 @@ func UpdateUser(db *gorm.DB) fiber.Handler {
 // DeleteUser godoc
 //
 // @Description	delete user by id
-// @Param 		id body uint true "used to delete user by id"
+// @Param 		user body model.UserDelete true "used to delete user"
 // @Accept		json
 // @Produce		json
 // @Success		200	{object} Output

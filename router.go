@@ -30,12 +30,14 @@ func UserRouter(app fiber.Router, db *gorm.DB) {
 }
 
 func TaskRouter(app fiber.Router, db *gorm.DB) {
+	app.Get("/getTask", handler.GetTask(db))
 	app.Post("/createTask", handler.CreateTask(db))
 	app.Patch("/updateTask", handler.UpdateTask(db))
 	app.Delete("/deleteTask", handler.DeliteTask(db))
 }
 
 func TrackRouter(app fiber.Router, db *gorm.DB) {
+	app.Get("/getTrack", handler.GetTrack(db))
 	app.Post("/createTrack", handler.CreateTrack(db))
 	app.Patch("/updateTrack", handler.UpdateTrack(db))
 	app.Delete("/deleteTrack", handler.DeliteTrack(db))

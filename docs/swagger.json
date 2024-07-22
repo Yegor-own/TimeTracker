@@ -17,6 +17,312 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
+        "/api/task/createTask": {
+            "post": {
+                "description": "create task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "used to set task params",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TaskCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/task/deliteTask": {
+            "delete": {
+                "description": "delete task by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "used to delete task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TaskDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/task/getUser": {
+            "get": {
+                "description": "gets task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "used for finding task by id",
+                        "name": "task_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "used for finding task by name",
+                        "name": "task_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "used for finding task by desc",
+                        "name": "task_description",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "task data",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/task/updateTask": {
+            "patch": {
+                "description": "update task by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "used to update task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TaskUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/track/createTrack": {
+            "post": {
+                "description": "create track",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "used to set track",
+                        "name": "track",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TrackCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/track/deliteTrack": {
+            "delete": {
+                "description": "delete track by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "used to delete track",
+                        "name": "track",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TrackDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/track/getTrack": {
+            "get": {
+                "description": "gets track",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "used for finding track by id",
+                        "name": "track_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "used for finding track by user id",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "used for finding track by task id",
+                        "name": "task_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "track data",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/track/updateTrack": {
+            "patch": {
+                "description": "update track by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "used to update track",
+                        "name": "track",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TrackUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Output"
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/createUser": {
             "post": {
                 "description": "create user",
@@ -28,47 +334,12 @@
                 ],
                 "parameters": [
                     {
-                        "description": "used to set user's name",
-                        "name": "name",
+                        "description": "used to set user",
+                        "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to set user's surname",
-                        "name": "surname",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to set user's patronymic",
-                        "name": "patronymic",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to set user's address",
-                        "name": "address",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to set user's passport",
-                        "name": "passport",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/model.UserCreate"
                         }
                     }
                 ],
@@ -99,12 +370,12 @@
                 ],
                 "parameters": [
                     {
-                        "description": "used to delete user by id",
-                        "name": "id",
+                        "description": "used to delete user",
+                        "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/model.UserDelete"
                         }
                     }
                 ],
@@ -286,52 +557,12 @@
                 ],
                 "parameters": [
                     {
-                        "description": "used to find user by id",
-                        "name": "id",
+                        "description": "used to update user",
+                        "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "description": "used to change user's name",
-                        "name": "name",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to change user's surname",
-                        "name": "surname",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to change user's patronymic",
-                        "name": "patronymic",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to change user's address",
-                        "name": "address",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "used to change user's passport",
-                        "name": "passport",
-                        "in": "body",
-                        "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/model.UserUpdate"
                         }
                     }
                 ],
@@ -359,6 +590,159 @@
                 "data": {},
                 "error": {
                     "type": "string"
+                }
+            }
+        },
+        "model.TaskCreate": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "code review by lead"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "code review"
+                }
+            }
+        },
+        "model.TaskDelete": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "model.TaskUpdate": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "code review by lead"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "code review"
+                }
+            }
+        },
+        "model.TrackCreate": {
+            "type": "object",
+            "properties": {
+                "start": {
+                    "type": "string",
+                    "example": "2006-01-02 15:04:05"
+                },
+                "stop": {
+                    "type": "string",
+                    "example": "2010-01-02 15:04:05"
+                },
+                "taskID": {
+                    "type": "integer"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.TrackDelete": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "model.TrackUpdate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2006-01-02 15:04:05"
+                },
+                "stop": {
+                    "type": "string",
+                    "example": "2010-01-02 15:04:05"
+                },
+                "taskID": {
+                    "type": "integer"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.UserCreate": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "example": "LA"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Jon"
+                },
+                "passport": {
+                    "type": "integer",
+                    "example": 123456
+                },
+                "patronymic": {
+                    "type": "string",
+                    "example": "White"
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Doe"
+                }
+            }
+        },
+        "model.UserDelete": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "model.UserUpdate": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "example": "LA"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Jon"
+                },
+                "passport": {
+                    "type": "integer",
+                    "example": 123456
+                },
+                "patronymic": {
+                    "type": "string",
+                    "example": "White"
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Doe"
                 }
             }
         }

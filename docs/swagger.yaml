@@ -6,6 +6,113 @@ definitions:
       error:
         type: string
     type: object
+  model.TaskCreate:
+    properties:
+      description:
+        example: code review by lead
+        type: string
+      name:
+        example: code review
+        type: string
+    type: object
+  model.TaskDelete:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  model.TaskUpdate:
+    properties:
+      description:
+        example: code review by lead
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: code review
+        type: string
+    type: object
+  model.TrackCreate:
+    properties:
+      start:
+        example: "2006-01-02 15:04:05"
+        type: string
+      stop:
+        example: "2010-01-02 15:04:05"
+        type: string
+      taskID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  model.TrackDelete:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  model.TrackUpdate:
+    properties:
+      id:
+        example: 1
+        type: integer
+      start:
+        example: "2006-01-02 15:04:05"
+        type: string
+      stop:
+        example: "2010-01-02 15:04:05"
+        type: string
+      taskID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  model.UserCreate:
+    properties:
+      address:
+        example: LA
+        type: string
+      name:
+        example: Jon
+        type: string
+      passport:
+        example: 123456
+        type: integer
+      patronymic:
+        example: White
+        type: string
+      surname:
+        example: Doe
+        type: string
+    type: object
+  model.UserDelete:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  model.UserUpdate:
+    properties:
+      address:
+        example: LA
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Jon
+        type: string
+      passport:
+        example: 123456
+        type: integer
+      patronymic:
+        example: White
+        type: string
+      surname:
+        example: Doe
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -19,41 +126,214 @@ info:
   title: Fiber Example API
   version: "1.0"
 paths:
+  /api/task/createTask:
+    post:
+      consumes:
+      - application/json
+      description: create task
+      parameters:
+      - description: used to set task params
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/model.TaskCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success response
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/task/deliteTask:
+    delete:
+      consumes:
+      - application/json
+      description: delete task by id
+      parameters:
+      - description: used to delete task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/model.TaskDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/task/getUser:
+    get:
+      consumes:
+      - application/json
+      description: gets task
+      parameters:
+      - description: used for finding task by id
+        in: query
+        name: task_id
+        type: integer
+      - description: used for finding task by name
+        in: query
+        name: task_name
+        type: string
+      - description: used for finding task by desc
+        in: query
+        name: task_description
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: task data
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/task/updateTask:
+    patch:
+      consumes:
+      - application/json
+      description: update task by id
+      parameters:
+      - description: used to update task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/model.TaskUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success response
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/track/createTrack:
+    post:
+      consumes:
+      - application/json
+      description: create track
+      parameters:
+      - description: used to set track
+        in: body
+        name: track
+        required: true
+        schema:
+          $ref: '#/definitions/model.TrackCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success response
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/track/deliteTrack:
+    delete:
+      consumes:
+      - application/json
+      description: delete track by id
+      parameters:
+      - description: used to delete track
+        in: body
+        name: track
+        required: true
+        schema:
+          $ref: '#/definitions/model.TrackDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/track/getTrack:
+    get:
+      consumes:
+      - application/json
+      description: gets track
+      parameters:
+      - description: used for finding track by id
+        in: query
+        name: track_id
+        type: integer
+      - description: used for finding track by user id
+        in: query
+        name: user_id
+        type: integer
+      - description: used for finding track by task id
+        in: query
+        name: task_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: track data
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/track/updateTrack:
+    patch:
+      consumes:
+      - application/json
+      description: update track by id
+      parameters:
+      - description: used to update track
+        in: body
+        name: track
+        required: true
+        schema:
+          $ref: '#/definitions/model.TrackUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success response
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
   /api/user/createUser:
     post:
       consumes:
       - application/json
       description: create user
       parameters:
-      - description: used to set user's name
+      - description: used to set user
         in: body
-        name: name
+        name: user
         required: true
         schema:
-          type: string
-      - description: used to set user's surname
-        in: body
-        name: surname
-        required: true
-        schema:
-          type: string
-      - description: used to set user's patronymic
-        in: body
-        name: patronymic
-        schema:
-          type: string
-      - description: used to set user's address
-        in: body
-        name: address
-        required: true
-        schema:
-          type: string
-      - description: used to set user's passport
-        in: body
-        name: passport
-        required: true
-        schema:
-          type: integer
+          $ref: '#/definitions/model.UserCreate'
       produces:
       - application/json
       responses:
@@ -71,12 +351,12 @@ paths:
       - application/json
       description: delete user by id
       parameters:
-      - description: used to delete user by id
+      - description: used to delete user
         in: body
-        name: id
+        name: user
         required: true
         schema:
-          type: integer
+          $ref: '#/definitions/model.UserDelete'
       produces:
       - application/json
       responses:
@@ -193,37 +473,12 @@ paths:
       - application/json
       description: update user by id
       parameters:
-      - description: used to find user by id
+      - description: used to update user
         in: body
-        name: id
+        name: user
         required: true
         schema:
-          type: integer
-      - description: used to change user's name
-        in: body
-        name: name
-        schema:
-          type: string
-      - description: used to change user's surname
-        in: body
-        name: surname
-        schema:
-          type: string
-      - description: used to change user's patronymic
-        in: body
-        name: patronymic
-        schema:
-          type: string
-      - description: used to change user's address
-        in: body
-        name: address
-        schema:
-          type: string
-      - description: used to change user's passport
-        in: body
-        name: passport
-        schema:
-          type: integer
+          $ref: '#/definitions/model.UserUpdate'
       produces:
       - application/json
       responses:

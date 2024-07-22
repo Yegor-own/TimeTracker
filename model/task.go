@@ -1,22 +1,22 @@
 package model
 
 type Task struct {
-	ID          uint
-	Name        string
-	Description string
+	ID          uint   `json:"id" example:"1"`
+	Name        string `json:"name" example:"code review"`
+	Description string `json:"description" example:"code review by lead"`
 }
 
 type TaskCreate struct {
-	Name        string
-	Description string
+	Name        string `json:"name" example:"code review"`
+	Description string `json:"description" example:"code review by lead"`
 }
 
 type TaskUpdate struct {
-	ID          uint
-	Name        *string
-	Description *string
+	ID          uint    `json:"id" example:"1"`
+	Name        *string `json:"name" example:"code review"`
+	Description *string `json:"description" example:"code review by lead"`
 }
 
 type TaskDelete struct {
-	ID uint
+	ID uint `json:"id" example:"1"`
 }
