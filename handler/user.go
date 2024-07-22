@@ -13,8 +13,7 @@ import (
 
 // GetUser godoc
 //
-// @Summary		labour costs
-// @Description	gives track
+// @Description	gets user by id/name/surname/...
 // @Param 		user_id 		query int 	 false 	"used for finding user by id"
 // @Param 		user_name 		query string false 	"used for finding user by name"
 // @Param 		user_surname 	query string false 	"used for finding user by surname"
@@ -23,8 +22,8 @@ import (
 // @Param 		user_passport 	query int 	 false 	"used for finding user by passport"
 // @Accept		json
 // @Produce		json
-// @Success		200	{string}	json	"list of tracks"
-// @Failure		400	{string}	json	"error"
+// @Success		200	{object}	Output	"user data"
+// @Failure		400	{object}	Output	"error"
 // @Router		/api/user/getUser 	[get]
 func GetUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -64,14 +63,13 @@ func GetUser(db *gorm.DB) fiber.Handler {
 
 // GetUsers godoc
 //
-// @Summary		"labour costs"
-// @Description	"gives track"
+// @Description	getting users
 // @Param 		limit 	query int true 	"max items on page"
 // @Param 		page 	query int true 	"starts from 1"
 // @Accept		json
 // @Produce		json
-// @Success		200	{string}	json	"list of tracks"
-// @Failure		400	{string}	json	"error"
+// @Success		200	{object}	Output	"list of users"
+// @Failure		400	{object}	Output	"error"
 // @Router		/api/user/getUsers 	[get]
 func GetUsers(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -100,15 +98,14 @@ func GetUsers(db *gorm.DB) fiber.Handler {
 
 // LabourCosts godoc
 //
-//	@Summary		labour costs
 //	@Description	gives tracks
-//	@Param user_id query int true "used for finding tracks"
-//	@Param from query string true "used for left edge of dates"
-//	@Param to query string false "used for right edge of dates"
+//	@Param 			user_id query int 		true 	"used for finding tracks"
+//	@Param 			from 	query string 	true 	"used for left edge of dates"
+//	@Param 			to 		query string 	false 	"used for right edge of dates"
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{string}	json	"list of tracks"
-//	@Failure		400	{string}	json	"error"
+//	@Success		200		{object}	Output	"list of tracks"
+//	@Failure		400		{object}	Output	"error"
 //	@Router			/api/user/labourCosts [get]
 func LabourCosts(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -140,6 +137,19 @@ func LabourCosts(db *gorm.DB) fiber.Handler {
 	}
 }
 
+// CreateUser godoc
+//
+// @Description	create user
+// @Param 		name 		body string true 	"used to set user's name"
+// @Param 		surname 	body string true 	"used to set user's surname"
+// @Param 		patronymic 	body string false 	"used to set user's patronymic"
+// @Param 		address 	body string true 	"used to set user's address"
+// @Param 		passport 	body int 	true 	"used to set user's passport"
+// @Accept		json
+// @Produce		json
+// @Success		200	{object} 	Output "success response"
+// @Failure		400	{object}	Output	"error"
+// @Router		/api/user/createUser 	[post]
 func CreateUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var input model.UserCreate
@@ -169,6 +179,20 @@ func CreateUser(db *gorm.DB) fiber.Handler {
 	}
 }
 
+// UpdateUser godoc
+//
+// @Description	update user by id
+// @Param 		id 			body uint 	true 	"used to find user by id"
+// @Param 		name 		body string false 	"used to change user's name"
+// @Param 		surname 	body string false 	"used to change user's surname"
+// @Param 		patronymic 	body string false 	"used to change user's patronymic"
+// @Param 		address 	body string false 	"used to change user's address"
+// @Param 		passport 	body int 	false 	"used to change user's passport"
+// @Accept		json
+// @Produce		json
+// @Success		200	{object} Output "success response"
+// @Failure		400	{object}	Output	"error"
+// @Router		/api/user/updateUser 	[patch]
 func UpdateUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var input model.UserUpdate
@@ -214,6 +238,15 @@ func UpdateUser(db *gorm.DB) fiber.Handler {
 	}
 }
 
+// DeleteUser godoc
+//
+// @Description	delete user by id
+// @Param 		id body uint true "used to delete user by id"
+// @Accept		json
+// @Produce		json
+// @Success		200	{object} Output
+// @Failure		400	{object} Output	"error"
+// @Router		/api/user/deleteUser 	[delete]
 func DeliteUser(db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var input model.UserDelete

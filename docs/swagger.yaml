@@ -1,4 +1,11 @@
 basePath: /
+definitions:
+  handler.Output:
+    properties:
+      data: {}
+      error:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -12,31 +19,220 @@ info:
   title: Fiber Example API
   version: "1.0"
 paths:
-  /examples/ping:
+  /api/user/createUser:
+    post:
+      consumes:
+      - application/json
+      description: create user
+      parameters:
+      - description: used to set user's name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: used to set user's surname
+        in: body
+        name: surname
+        required: true
+        schema:
+          type: string
+      - description: used to set user's patronymic
+        in: body
+        name: patronymic
+        schema:
+          type: string
+      - description: used to set user's address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: used to set user's passport
+        in: body
+        name: passport
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success response
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/user/deleteUser:
+    delete:
+      consumes:
+      - application/json
+      description: delete user by id
+      parameters:
+      - description: used to delete user by id
+        in: body
+        name: id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/user/getUser:
+    get:
+      consumes:
+      - application/json
+      description: gets user by id/name/surname/...
+      parameters:
+      - description: used for finding user by id
+        in: query
+        name: user_id
+        type: integer
+      - description: used for finding user by name
+        in: query
+        name: user_name
+        type: string
+      - description: used for finding user by surname
+        in: query
+        name: user_surname
+        type: string
+      - description: used for finding user by patronymic
+        in: query
+        name: user_patronymic
+        type: string
+      - description: used for finding user by address
+        in: query
+        name: user_address
+        type: string
+      - description: used for finding user by passport
+        in: query
+        name: user_passport
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/user/getUsers:
+    get:
+      consumes:
+      - application/json
+      description: getting users
+      parameters:
+      - description: max items on page
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: starts from 1
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of users
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/handler.Output'
+  /api/user/labourCosts:
     get:
       consumes:
       - application/json
       description: gives tracks
+      parameters:
+      - description: used for finding tracks
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      - description: used for left edge of dates
+        in: query
+        name: from
+        required: true
+        type: string
+      - description: used for right edge of dates
+        in: query
+        name: to
+        type: string
       produces:
-      - text/plain
+      - application/json
       responses:
         "200":
-          description: pong
+          description: list of tracks
           schema:
-            type: string
+            $ref: '#/definitions/handler.Output'
         "400":
-          description: ok
+          description: error
           schema:
-            type: string
-        "404":
-          description: ok
+            $ref: '#/definitions/handler.Output'
+  /api/user/updateUser:
+    patch:
+      consumes:
+      - application/json
+      description: update user by id
+      parameters:
+      - description: used to find user by id
+        in: body
+        name: id
+        required: true
+        schema:
+          type: integer
+      - description: used to change user's name
+        in: body
+        name: name
+        schema:
+          type: string
+      - description: used to change user's surname
+        in: body
+        name: surname
+        schema:
+          type: string
+      - description: used to change user's patronymic
+        in: body
+        name: patronymic
+        schema:
+          type: string
+      - description: used to change user's address
+        in: body
+        name: address
+        schema:
+          type: string
+      - description: used to change user's passport
+        in: body
+        name: passport
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success response
           schema:
-            type: string
-        "500":
-          description: ok
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: error
           schema:
-            type: string
-      summary: labour costs
-      tags:
-      - example
+            $ref: '#/definitions/handler.Output'
 swagger: "2.0"
